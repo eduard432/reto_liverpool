@@ -1,20 +1,11 @@
-import Header from "@/components/Header";
 import React from "react";
 import { AggregateOptions, MongoClient, Document } from "mongodb";
 import Pagination from "@/components/Pagination";
+import { PageProps, Product } from "@/types";
+import Link from "next/link";
 
 const maxElements = 52;
 
-type Product = {
-  sku: string,
-  Name: string,
-  image: string
-};
-
-type PageProps = {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
 
 export const metadata = {
   icons: {
@@ -22,7 +13,7 @@ export const metadata = {
   },
 }
 
-export default async function Home({ searchParams }: PageProps) {
+export default async function Home({ searchParams }: PageProps<{}>) {
   const { page, query } = await searchParams;
   const pageNumber = Number(page) || 1;
   const queryStr = query || "";
@@ -58,7 +49,7 @@ export default async function Home({ searchParams }: PageProps) {
 
   return (
     <div className="">
-      <Header />
+      
       <main className="bg-white">
         <div className="mx-auto max-w-2xl px-4 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -77,10 +68,10 @@ export default async function Home({ searchParams }: PageProps) {
                 <div className="mt-4 flex justify-between">
                   <div>
                     <h3 className="text-sm text-gray-700">
-                      <a href={"/"}>
+                      <Link href={`/product/${product.sku}`}>
                         <span aria-hidden="true" className="absolute inset-0" />
                         {product.Name}
-                      </a>
+                      </Link>
                     </h3>
                     <p className="mt-1 text-sm text-gray-500">
                       {product.sku}
