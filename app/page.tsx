@@ -4,7 +4,7 @@ import Pagination from "@/components/Pagination";
 import { PageProps, Product } from "@/types";
 import Link from "next/link";
 
-const maxElements = 52;
+const PRODUCTS_PER_PAGE = 55;
 
 
 export const metadata = {
@@ -28,8 +28,8 @@ export default async function Home({ searchParams }: PageProps<{}>) {
   const db = client.db(dbName);
   const collection = db.collection<Product>("produtos_liverpool");
   const pipeline: Document[] = [
-    { $skip: (pageNumber == 1 ? 0 : pageNumber) * maxElements },
-    { $limit: maxElements },
+    { $skip: (pageNumber == 1 ? 0 : pageNumber) * PRODUCTS_PER_PAGE },
+    { $limit: PRODUCTS_PER_PAGE },
   ]
   if(queryStr) {
     pipeline.unshift({
