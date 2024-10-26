@@ -6,7 +6,6 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import Spinner from "./Spinner";
-import OpenAI from "openai";
 
 type PageProps = {
   setSearch: (search: string) => void;
@@ -20,37 +19,22 @@ const SearchDialog = ({ setSearch, isOpen, setIsOpen }: PageProps) => {
 
   const handleSearchImage = async () => {
     setLoading(true);
-    const openai = new OpenAI({
-      dangerouslyAllowBrowser: true,
-      apiKey: process.env.NEXT_PUBLIC_OPENAI_KEY,
-    });
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content: [
-            {
-              type: "text",
-              text: 'Asistente que etiqueta imagenes con 8 etiquetas en español, la más importante primero, utiliza sinónimos. Sé descriptivo. Responde por ejemplo: "anime, camiseta, negro, hombres"',
-            },
-          ],
+    
+    const response = await fetch('/api/response', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/image',
         },
-        {
-          role: "user",
-          content: [
-            { type: "text", text: "Etiqueta la siguiente imagen" },
-            {
-              type: "image_url",
-              image_url: {
-                url: `data:image/jpeg;base64,${fileData}`,
-              },
-            },
-          ],
-        },
-      ],
-    });
-    setSearch(response.choices[0].message.content || "");
+        body: fileData,
+      });
+
+    if(response.ok) {
+        const {query} = await response.json()
+        setSearch(query)
+    } else {
+        setSearch("")
+    }
+    
     setIsOpen(false);
     setLoading(false);
   };
