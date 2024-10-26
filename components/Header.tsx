@@ -1,16 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaCamera, FaSearch } from "react-icons/fa";
-import OpenAI from "openai";
-import {
-  Dialog,
-  DialogBackdrop,
-  DialogPanel,
-  DialogTitle,
-} from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Spinner from "./Spinner";
 import Image from "next/image";
 import SearchDialog from "./SearchDialog";
 

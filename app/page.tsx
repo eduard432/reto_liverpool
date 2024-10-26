@@ -1,7 +1,7 @@
 import React from "react";
-import { AggregateOptions, MongoClient, Document } from "mongodb";
+import { MongoClient, Document } from "mongodb";
 import Pagination from "@/components/Pagination";
-import { PageProps, Product } from "@/types";
+import { Product } from "@/types";
 import Link from "next/link";
 
 const PRODUCTS_PER_PAGE = 56;
@@ -13,7 +13,12 @@ export const metadata = {
   },
 }
 
-export default async function Home({ searchParams }: PageProps<{}>) {
+export type PageProps = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+
+export default async function Home({ searchParams }: PageProps) {
   const { page, query } = await searchParams;
   const pageNumber = Number(page) || 1;
   const queryStr = query || "";

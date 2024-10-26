@@ -2,7 +2,7 @@
 import { Product } from "@/types";
 import { useRouter } from "next/navigation";
 import OpenAI from "openai";
-import React, { useState } from "react";
+import React from "react";
 
 const ProductInfo = ({ product }: { product: Product }) => {
   const router = useRouter();
