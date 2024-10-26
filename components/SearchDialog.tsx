@@ -21,7 +21,7 @@ const SearchDialog = ({ setSearch, isOpen, setIsOpen }: PageProps) => {
   const handleSearchImage = async () => {
     setLoading(true);
     
-    const response = await fetch('/api/response', {
+    const response = await fetch('/api/response_base64', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/image',

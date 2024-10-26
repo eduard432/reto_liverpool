@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Product } from "@/types";
 import { useRouter } from "next/navigation";
 import OpenAI from "openai";
@@ -8,39 +8,20 @@ const ProductInfo = ({ product }: { product: Product }) => {
   const router = useRouter();
 
   const handleSearch = async () => {
-    const openai = new OpenAI({
-      dangerouslyAllowBrowser: true,
-      apiKey: process.env.NEXT_PUBLIC_OPENAI_KEY,
+    const response = await fetch("/api/response_url", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/image",
+      },
+      body: product.image,
     });
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content: [
-            {
-              type: "text",
-              text: 'Asistente que etiqueta imagenes con 8 etiquetas en español, la más importante primero junto con la marca, utiliza sinónimos. Sé descriptivo. Responde por ejemplo: "anime, camiseta, negro, hombres"',
-            },
-          ],
-        },
-        {
-          role: "user",
-          content: [
-            { type: "text", text: "Etiqueta la siguiente imagen" },
-            {
-              type: "image_url",
-              image_url: {
-                url: `${product.image}`,
-              },
-            },
-          ],
-        },
-      ],
-    });
-    router.push(
-      `/?page=1&query=${encodeURI(response.choices[0].message.content || "")}`
-    );
+
+    if (response.ok) {
+      const { query } = await response.json();
+      router.push(`/?page=1&query=${encodeURI(query)}`);
+    } else {
+      router.push(`/?page=1&query=${encodeURI("")}`);
+    }
   };
 
   return (
