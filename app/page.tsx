@@ -4,7 +4,7 @@ import Pagination from "@/components/Pagination";
 import { PageProps, Product } from "@/types";
 import Link from "next/link";
 
-const PRODUCTS_PER_PAGE = 55;
+const PRODUCTS_PER_PAGE = 56;
 
 
 export const metadata = {
@@ -85,7 +85,9 @@ export default async function Home({ searchParams }: PageProps<{}>) {
         </div>
       </main>
       <footer className="w-full py-2 flex justify-center">
-        <Pagination pageQty={10} />
+        {
+          productData.length >= PRODUCTS_PER_PAGE && (<Pagination pageQty={10} />)
+        }
       </footer>
     </div>
   );

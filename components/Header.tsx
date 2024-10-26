@@ -142,6 +142,7 @@ const Header = () => {
                         <input
                           accept="image/png, image/jpeg, image/jpg, image/webp"
                           onChange={(event) => handleUpload(event)}
+                          readOnly
                           type="file"
                           hidden
                         />

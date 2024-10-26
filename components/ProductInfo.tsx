@@ -54,7 +54,7 @@ const ProductInfo = ({ product }: { product: Product }) => {
         <div className="">
           <button className="bg-main text-white p-2">+</button>
           <input
-            value={0}
+            defaultValue={12}
             className="w-16 h-10 focus:outline-none px-2 text-center"
             type="number"
           />
