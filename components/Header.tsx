@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Spinner from "./Spinner";
+import Image from "next/image";
 
 const Header = () => {
   const router = useRouter();
@@ -168,9 +169,17 @@ const Header = () => {
         </div>
       </Dialog>
       <header className="bg-main text-white px-10 py-6 text-3xl justify-between xs:flex-col md:flex space-y-2 items-center">
-        <p className="text-center">
-          <Link href="/">Liverpool.com</Link>
-        </p>
+          <div className="flex justify-center" >
+          <Link href="/">
+            {" "}
+            <Image
+              width={174}
+              height={40}
+              alt="Liverpool Logo"
+              src="/liverpool_logo.svg"
+            />
+          </Link>
+          </div>
         <div className="px-2 py-1 flex bg-white text-gray-500 justify-between items-center round-md w-full sm:w-1/3">
           <button
             className="focus:outline-none"
