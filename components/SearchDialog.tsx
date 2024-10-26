@@ -6,7 +6,6 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import Spinner from "./Spinner";
-import { useRouter } from "next/router";
 import OpenAI from "openai";
 
 type PageProps = {
