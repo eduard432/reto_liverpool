@@ -16,6 +16,7 @@ type PageProps = {
 const SearchDialog = ({ setSearch, isOpen, setIsOpen }: PageProps) => {
   const [fileData, setFileData] = useState("");
   const [loading, setLoading] = useState(false);
+  const [fileName, setFileName] = useState("")
 
   const handleSearchImage = async () => {
     setLoading(true);
@@ -44,6 +45,7 @@ const SearchDialog = ({ setSearch, isOpen, setIsOpen }: PageProps) => {
   ) => {
     const file = event?.target?.files?.[0];
     if (file) {
+      setFileName(file.name)
       const reader = new FileReader();
       reader.onload = () => {
         if (typeof reader?.result == "string") {
@@ -58,6 +60,7 @@ const SearchDialog = ({ setSearch, isOpen, setIsOpen }: PageProps) => {
   useEffect(() => {
     if (!isOpen) {
       setFileData("");
+      setFileName("")
     }
   }, [isOpen]);
 
@@ -108,7 +111,7 @@ const SearchDialog = ({ setSearch, isOpen, setIsOpen }: PageProps) => {
                     Seleccionar Archivo
                   </h4>
                   <div className="flex items-center justify-center">
-                    <label>
+                    <label className="flex flex-col items-center" >
                       <input
                         accept="image/png, image/jpeg, image/jpg, image/webp"
                         onChange={(event) => handleUpload(event)}
@@ -119,6 +122,7 @@ const SearchDialog = ({ setSearch, isOpen, setIsOpen }: PageProps) => {
                       <div className="flex w-28 h-9 px-2 flex-col bg-main rounded-full shadow text-white text-xs font-semibold leading-4 items-center justify-center cursor-pointer focus:outline-none">
                         Choose File
                       </div>
+                      {fileName && (<p className="text-main font-semibold" >{fileName}</p>)}
                     </label>
                   </div>
                 </div>
