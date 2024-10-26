@@ -9,7 +9,7 @@ const PRODUCTS_PER_PAGE = 56;
 
 export const metadata = {
   icons: {
-    icon: '/favicon.ico', // /public path
+    icon: '/favicon.ico',
   },
 }
 
@@ -18,12 +18,10 @@ export default async function Home({ searchParams }: PageProps<{}>) {
   const pageNumber = Number(page) || 1;
   const queryStr = query || "";
 
-  const url =
-    'mongodb+srv://edux:A9qLbLJZTlFmXzo0@cluster0.4ihwb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"';
+  const url = process.env.DB_URI || "";
   const client = new MongoClient(url);
   await client.connect();
   console.log("Connected successfully to server");
-  // Database Name
   const dbName = "reto_liverpool";
   const db = client.db(dbName);
   const collection = db.collection<Product>("produtos_liverpool");

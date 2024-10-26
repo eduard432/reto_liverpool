@@ -5,8 +5,7 @@ import React from "react";
 
 const Page = async ({ params }: PageProps<{ sku: string }>) => {
   const { sku } = await params;
-  const url =
-    'mongodb+srv://edux:A9qLbLJZTlFmXzo0@cluster0.4ihwb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"';
+  const url = process.env.DB_URI || "";
   const client = new MongoClient(url);
   await client.connect();
   console.log("Connected successfully to server");
