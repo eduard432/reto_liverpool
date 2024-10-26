@@ -3,7 +3,7 @@ import OpenAI from "openai";
 export async function POST(request: Request) {
   try {
     const openai = new OpenAI({
-      apiKey: process.env.NEXT_PUBLIC_OPENAI_KEY,
+      apiKey: process.env.OPENAI_KEY,
     });
 
     const data = await request.text();
