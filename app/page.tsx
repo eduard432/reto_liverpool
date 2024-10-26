@@ -6,15 +6,9 @@ import Pagination from "@/components/Pagination";
 const maxElements = 52;
 
 type Product = {
-  name: string;
-  main_category: string;
-  sub_category: string;
-  image: string;
-  link: string;
-  ratings: number;
-  no_of_ratings: string;
-  discount_price: string;
-  actual_price: string;
+  sku: string,
+  Name: string,
+  image: string
 };
 
 type PageProps = {
@@ -31,7 +25,7 @@ export const metadata = {
 export default async function Home({ searchParams }: PageProps) {
   const { page, query } = await searchParams;
   const pageNumber = Number(page) || 1;
-  const querytStr = query || "";
+  const queryStr = query || "";
 
   const url =
     'mongodb+srv://edux:A9qLbLJZTlFmXzo0@cluster0.4ihwb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"';
@@ -41,17 +35,17 @@ export default async function Home({ searchParams }: PageProps) {
   // Database Name
   const dbName = "reto_liverpool";
   const db = client.db(dbName);
-  const collection = db.collection<Product>("productos");
+  const collection = db.collection<Product>("produtos_liverpool");
   const pipeline: Document[] = [
-    { $skip: pageNumber * maxElements },
+    { $skip: (pageNumber == 1 ? 0 : pageNumber) * maxElements },
     { $limit: maxElements },
   ]
-  if(querytStr) {
+  if(queryStr) {
     pipeline.unshift({
       $search: {
         index: "default",
         text: {
-          query: querytStr,
+          query: queryStr,
           path: {
             wildcard: "*",
           },
@@ -75,7 +69,7 @@ export default async function Home({ searchParams }: PageProps) {
               <div key={i + 1} className="group relative">
                 <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                   <img
-                    alt={product.name}
+                    alt={product.Name}
                     src={product.image}
                     className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                   />
@@ -85,16 +79,13 @@ export default async function Home({ searchParams }: PageProps) {
                     <h3 className="text-sm text-gray-700">
                       <a href={"/"}>
                         <span aria-hidden="true" className="absolute inset-0" />
-                        {product.name}
+                        {product.Name}
                       </a>
                     </h3>
                     <p className="mt-1 text-sm text-gray-500">
-                      {product.sub_category}
+                      {product.sku}
                     </p>
                   </div>
-                  <p className="text-sm font-medium text-gray-900">
-                    {product.actual_price}
-                  </p>
                 </div>
               </div>
             ))} 
